@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Me Valentine</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        /* الواجهة الأولى */
+        .first-screen {
+            text-align: center;
+            padding: 20px;
+            animation: fadeIn 1s ease;
+        }
+
+        .first-screen.hidden {
+            display: none;
+        }
+
+        .image-container {
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .image-container img {
+            max-width: 50%;
+            height: auto;
+            max-height: 400px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .question {
+            font-size: 2.5rem;
+            color: #d63384;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .english-text {
+            font-size: 1.5rem;
+            color: #ff69b4;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .yes-btn {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.6);
+        }
+
+        .no-btn {
+            background: #f8f9fa;
+            color: #6c757d;
+            border: 2px solid #dee2e6;
+        }
+
+        .no-btn:hover {
+            background: #e9ecef;
+        }
+
+        /* الواجهة الثانية */
+        .second-screen {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            animation: fadeIn 1s ease;
+        }
+
+        .second-screen.show {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .second-image {
+            margin-bottom: 30px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        .second-image img {
+            max-width: 50%;
+            height: auto;
+            max-height: 450px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(255, 20, 147, 0.4);
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10% { transform: scale(1.05); }
+            20% { transform: scale(1); }
+            30% { transform: scale(1.05); }
+            40% { transform: scale(1); }
+        }
+
+        .love-message {
+            background: white;
+            padding: 30px 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .love-message h1 {
+            color: #ff1493;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .love-message p {
+            color: #666;
+            font-size: 1.5rem;
+            font-style: italic;
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 105, 180, 0.3);
+            animation: fall linear infinite;
+            bottom: 100%;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .kimi-logo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <!-- تأثير القلوب المتساقطة -->
+    <div class="hearts" id="hearts"></div>
+
+    <!-- الواجهة الأولى: السؤال -->
+    <div class="first-screen" id="firstScreen">
+        <div class="image-container">
+            <!-- صورة الدببة الأولى (سؤال الحب) -->
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHyMparTBcUtj-4Dg8F2r_J9KAXixPZOnPjw&s" alt="Together Forever" id="mainImage">
+        </div>
+
+        <h1 class="question">هل تحبني؟</h1>
+        <p class="english-text">Do you love me?</p>
+
+        <div class="buttons">
+            <button class="yes-btn" onclick="showLove()">نعم ❤️</button>
+            <button class="no-btn" id="noBtn" onmouseover="moveButton()">لا</button>
+        </div>
+    </div>
+
+    <!-- الواجهة الثانية: الرد -->
+    <div class="second-screen" id="secondScreen">
+        <div class="second-image">
+            <!-- صورة الدببة الثانية (رد الحب) -->
+            <img src="https://bubududuworld.com/wp-content/uploads/2024/10/Bubu-loving-Dudu.png" alt="I Love You Too" id="loveImage">
+        </div>
+        
+        <div class="love-message">
+            <h1>أنا أيضاً أحبك! 💕</h1>
+            <p>Together Forever</p>
+        </div>
+    </div>
+
+    <script>
+        // إنشاء قلوب متساقطة
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            const heartSymbols = ['❤️', '💖', '💗', '💓', '💕'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                heartsContainer.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 6000);
+            }, 300);
+        }
+
+        // الانتقال للواجهة الثانية
+        function showLove() {
+            // إخفاء الواجهة الأولى
+            document.getElementById('firstScreen').classList.add('hidden');
+            
+            // إظهار الواجهة الثانية
+            document.getElementById('secondScreen').classList.add('show');
+            
+            // تأثير احتفالي إضافي
+            createCelebration();
+        }
+
+        // زر "لا" - يهرب من المؤشر
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            const maxX = window.innerWidth - 100;
+            const maxY = window.innerHeight - 50;
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+            
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+            btn.style.zIndex = '1000';
+        }
+
+        // تأثير الاحتفال
+        function createCelebration() {
+            const colors = ['#ff0000', '#ff69b4', '#ff1493', '#ffd700', '#ff6b6b'];
+            
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'fixed';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.borderRadius = '50%';
+                    confetti.style.animation = 'fall 4s linear forwards';
+                    confetti.style.zIndex = '999';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 50);
+            }
+
+            // إضافة قلوب كبيرة
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const bigHeart = document.createElement('div');
+                    bigHeart.innerHTML = '❤️';
+                    bigHeart.style.position = 'fixed';
+                    bigHeart.style.left = Math.random() * 100 + '%';
+                    bigHeart.style.top = '-50px';
+                    bigHeart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    bigHeart.style.animation = 'fall 5s linear forwards';
+                    bigHeart.style.zIndex = '998';
+                    document.body.appendChild(bigHeart);
+                    
+                    setTimeout(() => bigHeart.remove(), 5000);
+                }, i * 200);
+            }
+        }
+
+        // بدء تأثير القلوب
+        createHearts();
+    </script>
+</body>
+</html>
