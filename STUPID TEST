@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الذكاء</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .question-image {
+            width: 175px;
+            height: 175px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 5px solid #fff;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 2rem;
+            position: relative;
+            height: 80px;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            position: absolute;
+        }
+
+        .btn-yes {
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            right: 20%;
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.6);
+        }
+
+        .btn-no {
+            background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            left: 20%;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+            z-index: 10;
+        }
+
+        .btn-no:hover {
+            transform: scale(1.1);
+        }
+
+        /* الواجهة الثانية */
+        .result-container {
+            display: none;
+            animation: bounceIn 0.8s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .result-text {
+            font-size: 2.5rem;
+            color: #e74c3c;
+            margin-bottom: 2rem;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+            animation: shake 0.5s ease infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .result-image {
+            width: 175px;
+            height: 175px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border: 8px solid #fff;
+        }
+
+        .emoji {
+            font-size: 4rem;
+            margin: 1rem 0;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* تأثيرات إضافية */
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: gold;
+            border-radius: 50%;
+            animation: sparkle 1s linear infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الواجهة الأولى -->
+    <div class="container" id="screen1">
+        <div class="emoji">🤔</div>
+        <h1>هل أنت غبي؟</h1>
+        
+        <!-- صورة شخص يفكر/يتساءل -->
+        <img src="https://kimi-web-img.moonshot.cn/img/media.tenor.com/3710f43a323d68ea162700d2140cae49f5834e9b.gif" 
+             alt="شخص يفكر" 
+             class="question-image">
+        
+        <div class="buttons">
+            <button class="btn-yes" onclick="showResult()">نعم 👍</button>
+            <button class="btn-no" id="noBtn" onmouseover="moveButton()" ontouchstart="moveButton()">لا 👎</button>
+        </div>
+    </div>
+
+    <!-- الواجهة الثانية -->
+    <div class="container result-container" id="screen2">
+        <div class="emoji">🤦‍♂️</div>
+        <div class="result-text">كنت أعلم أنك مكلخ! 😂</div>
+        
+        <!-- صورة Facepalm -->
+        <img src="https://kimi-web-img.moonshot.cn/img/media.tenor.com/7d3fd837ffc59695cb84d89b7827665587a60e04.gif" 
+             alt="Facepalm" 
+             class="result-image">
+        
+        <div style="margin-top: 2rem;">
+            <button class="btn-yes" onclick="location.reload()" style="position: static; display: inline-block;">
+                حاول مرة أخرى 🔄
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const screen1 = document.getElementById('screen1');
+        const screen2 = document.getElementById('screen2');
+        let moveCount = 0;
+
+        function moveButton() {
+            // الحصول على أبعاد النافذة
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            
+            // حساب موقع عشوائي جديد مع التأكد من بقاء الزر ضمن الشاشة
+            const maxX = windowWidth - 150;
+            const maxY = windowHeight - 100;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            // تطبيق الحركة
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            noBtn.style.transform = `rotate(${Math.random() * 360}deg) scale(${0.8 + Math.random() * 0.4})`;
+            
+            // تغيير النص أحياناً
+            moveCount++;
+            const texts = ['لا', 'مستحيل!', 'لن تلحق!', 'أنا سريع!', 'حاول!', 'فاتك!', '😜'];
+            if (moveCount % 3 === 0) {
+                noBtn.textContent = texts[Math.floor(Math.random() * texts.length)];
+            }
+            
+            // إضافة تأثير صوتي بصري (اهتزاز)
+            noBtn.style.animation = 'none';
+            setTimeout(() => {
+                noBtn.style.animation = 'shake 0.3s ease';
+            }, 10);
+        }
+
+        function showResult() {
+            // إخفاء الواجهة الأولى وإظهار الثانية
+            screen1.style.display = 'none';
+            screen2.style.display = 'block';
+            
+            // إضافة تأثيرات احتفالية
+            createSparkles();
+        }
+
+        function createSparkles() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.top = Math.random() * 100 + '%';
+                    sparkle.style.animationDelay = Math.random() * 2 + 's';
+                    document.body.appendChild(sparkle);
+                    
+                    setTimeout(() => sparkle.remove(), 2000);
+                }, i * 100);
+            }
+        }
+
+        // منع النقر على زر لا (للأجهزة المحمولة)
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        // تحريك الزر عند محاولة النقر عليه (للأجهزة المحمولة)
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+    </script>
+
+</body>
+</html>
